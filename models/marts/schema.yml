@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: "Table de faits contenant les commandes et leurs indicateurs commerciaux et logistiques."
+
+    columns:
+      - name: customer_id
+        description: "Identifiant du client ayant passé la commande."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+
+      - name: employee_id
+        description: "Identifiant de l’employé ayant traité la commande."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_employees')
+                field: employee_id
+
+      - name: ship_via
+        description: "Identifiant du transporteur chargé de la livraison."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_shippers')
+                field: shipper_id
+
+      - name: montant_total
+        description: "Montant total de la commande après application des remises."
+        data_tests:
+          - not_null
+
+      - name: freight
+        description: "Montant des frais de transport associés à la commande."
+        data_tests:
+          - not_null
+
+      - name: is_on_time
+        description: "Indique si la commande a été livrée avant ou à la date demandée."
+        data_tests:
+          - not_null:
+              config:
+                where: "is_shipped = TRUE"
+
+  - name: dim_products
+    description: "Dimension contenant les informations enrichies des produits, de leur catégorie et de leur fournisseur."
+
+    columns:
+      - name: gamme
+        description: "Gamme du produit déterminée à partir de son prix : entrée de gamme (<80), milieu de gamme (entre 80 et 160) ou premium (>160)."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "Entree de gamme"
+                  - "Milieu de gamme"
+                  - "Premium"

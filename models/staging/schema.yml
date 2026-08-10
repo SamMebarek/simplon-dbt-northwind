@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Vue staging des clients Northwind. Les colonnes texte sont nettoyées avec TRIM et leur casse est standardisée."
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_orders
+    description: "Vue staging des commandes Northwind. Les colonnes sont typées de manière cohérente et is_shipped indique si la commande a été expédiée."
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_order_details
+    description: "Vue staging des lignes de commande Northwind. Le sous-total est calculé à partir du prix unitaire, de la quantité et de la remise."
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+
+      - name: product_id
+        data_tests:
+          - not_null
+
+    data_tests:
+      - unique:
+          column_name: "(order_id::text || '-' || product_id::text)"
+
+  - name: stg_products
+    description: "Vue staging des produits Northwind. La colonne en_stock indique si la quantité disponible est supérieure à zéro."
+    columns:
+      - name: product_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_categories
+    description: "Vue staging des catégories de produits Northwind. Les colonnes texte sont nettoyées et leur casse est standardisée."
+    columns:
+      - name: category_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_suppliers
+    description: "Vue staging des fournisseurs Northwind. Les coordonnées et les colonnes texte sont nettoyées et standardisées."
+    columns:
+      - name: supplier_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_employees
+    description: "Vue staging des employés Northwind. Le prénom et le nom sont concaténés dans la colonne full_name."
+    columns:
+      - name: employee_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: stg_shippers
+    description: "Vue staging des transporteurs Northwind."
+    columns:
+      - name: shipper_id
+        data_tests:
+          - not_null
+          - unique
