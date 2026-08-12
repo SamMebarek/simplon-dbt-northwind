@@ -9,7 +9,7 @@ L’objectif est de partir des tables transactionnelles du schéma `public`, de 
 Le projet suit une architecture en trois couches :
 
 ```text
-Sources PostgreSQL (public)
+Sources PostgreSQL
         ↓
 Staging : nettoyage et standardisation
         ↓
@@ -106,13 +106,6 @@ La couche marts expose les modèles finaux destinés à l’analyse :
 - `dim_temps` : dimension temporelle construite depuis les dates de commandes.
 - `fact_orders` : table de faits des commandes avec le montant total incluant les frais de transport.
 
-### Gammes de produits
-
-| Gamme | Prix unitaire |
-|---|---:|
-| Entrée de gamme | Jusqu’à 88 € |
-| Milieu de gamme | De plus de 88 € à 169 € |
-| Premium | Plus de 169 € |
 
 ## Tests de qualité
 
@@ -134,27 +127,9 @@ Le projet comprend :
 - dbt Core
 - adaptateur `dbt-postgres`
 
-> PostgreSQL n’étant pas pris en charge de manière stable par la version Fusion utilisée lors du projet, les commandes doivent être exécutées avec **dbt Core** depuis l’environnement virtuel.
-
 ## Installation
 
-Créer et activer un environnement virtuel :
-
-```bash
-python -m venv .venv
-```
-
-Sous Windows PowerShell :
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-Sous Linux ou macOS :
-
-```bash
-source .venv/bin/activate
-```
+Créer et activer un environnement virtuel
 
 Installer les dépendances :
 
@@ -162,12 +137,6 @@ Installer les dépendances :
 pip install -r requirements.txt
 ```
 
-Exemple de `requirements.txt` :
-
-```text
-dbt-core
-dbt-postgres
-```
 
 ## Configuration PostgreSQL
 
